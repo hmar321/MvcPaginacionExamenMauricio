@@ -1,0 +1,7 @@
+﻿@{
+    int posicion = (int)ViewData["POSICION"];
+    int ultimo = (int)ViewData["REGISTROS"];
+    string imagen = ViewData["IMAGEN"].ToString();
+}
+<h4>Página @posicion de @ultimo</h4>
+<img src="@imagen" class="rounded" style="width:15rem;height:15rem;" />

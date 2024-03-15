@@ -1,0 +1,86 @@
+﻿@model Zapatilla
+@{
+    int posicion = (int)ViewData["POSICION"];
+    int anterior = (int)ViewData["ANTERIOR"];
+    int siguiente = (int)ViewData["SIGUIENTE"];
+    int ultimo = (int)ViewData["REGISTROS"];
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var ini = $("#datos").data("posicion");
+            var idzapatilla = $("#datos").data("idzapatilla");
+            var inicio = "/Zapatillas/_Paginacion?posicion=" + ini + "&idzapatilla=" + idzapatilla;
+            $("#datos").load(inicio);
+
+            var registros = $("#datos").data("registros");
+            $("#botones button").each(function () {
+                $(this).click(function () {
+                    var posicion = $(this).val();
+                    var request = "/Zapatillas/_Paginacion?posicion=" + posicion + "&idzapatilla=" + idzapatilla;
+                    $("#datos").load(request);
+                    actualizarBotones(posicion);
+                })
+            })
+        })
+        function actualizarBotones(posicion) {
+            var registros = $("#datos").data("registros");
+            var siguiente = parseInt(posicion) + 1;
+            if (siguiente > registros) {
+                siguiente = registros;
+            }
+            var anterior = parseInt(posicion) - 1;
+            if (anterior < 1) {
+                anterior = 1;
+            }
+            $("#siguiente").val(siguiente);
+            $("#anterior").val(anterior);
+        }
+    </script>
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Zapatilla</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            IdZapatilla
+        </dt>
+        <dd class="col-sm-10">
+            @Model.IdZapatilla
+        </dd>
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Nombre
+        </dd>
+        <dt class="col-sm-2">
+            Descripcion
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Descripcion
+        </dd>
+        <dt class="col-sm-2">
+            Precio
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Precio
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-controller="Zapatillas" asp-action="Lista">Back to List</a>
+</div>
+<div class="card d-flex flex-column gap-4 p-4">
+    <div id="botones">
+        <button class="btn btn-dark" value="1">Primero</button>
+        <button class="btn btn-dark" id="anterior" value="@anterior">Anterior</button>
+        <button class="btn btn-dark" id="siguiente" value="@siguiente">Siguiente</button>
+        <button class="btn btn-dark" value="@ultimo">Último</button>
+    </div>
+    <div id="datos" data-registros="@ultimo" data-posicion="@posicion" data-idzapatilla="@Model.IdZapatilla">
+    </div>
+</div>

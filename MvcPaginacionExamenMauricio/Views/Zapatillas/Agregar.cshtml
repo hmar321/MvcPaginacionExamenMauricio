@@ -1,0 +1,33 @@
+﻿@model List<Zapatilla>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnadd").click(function () {
+                var numimg = $("#btnadd").val();
+                var label = "<label>Imagen " + numimg + "</label>";
+                var input = "<input type='text' name='imagen' class='form-control mb-3' style='width:30rem;'/>"
+                $("#imagenes").append(label);
+                $("#imagenes").append(input);
+                var siguiente = parseInt(numimg) + 1;
+                var numimg = $("#btnadd").val(siguiente);
+            })
+        })
+    </script>
+}
+<div class="container p-5">
+    <button id="btnadd" value="2" class="btn btn-info mb-3 text-light">Nueva caja imagen JQUERY</button>
+    <form method="post">
+        <label>Selecciona una zapatilla</label>
+        <select name="idzapatilla" class="form-select mb-3">
+            @foreach(Zapatilla zapa in Model){
+                <option value="@zapa.IdZapatilla">@zapa.Nombre</option>
+            }
+        </select>
+        <label>Imagen 1</label>
+        <input type="text" name="imagen" class="form-control mb-3" style="width:30rem;"/>
+        <button class="btn btn-primary mb-3">Agregar</button>
+        <div id="imagenes">
+
+        </div>
+    </form>
+</div>
